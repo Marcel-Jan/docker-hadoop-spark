@@ -43,9 +43,7 @@ Go to the bash shell on the namenode with that same Container ID of the namenode
 Create a HDFS directory /data//openbeer/breweries.
 
 ```
-  hdfs dfs -mkdir /data
-  hdfs dfs -mkdir /data/openbeer
-  hdfs dfs -mkdir /data/openbeer/breweries
+  hdfs dfs -mkdir -p /data/openbeer/breweries
 ```
 
 Copy breweries.csv to HDFS:
@@ -67,7 +65,7 @@ Go to the command line of the Spark master and start PySpark.
 
 Load breweries.csv from HDFS.
 ```
-  brewfile = spark.read.csv("hdfs://namenode:8020/data/openbeer/breweries/breweries.csv")
+  brewfile = spark.read.csv("hdfs://namenode:9000/data/openbeer/breweries/breweries.csv")
   
   brewfile.show()
 +----+--------------------+-------------+-----+---+
@@ -113,7 +111,7 @@ Go to the command line of the Spark master and start spark-shell.
 
 Load breweries.csv from HDFS.
 ```
-  val df = spark.read.csv("hdfs://namenode:8020/data/openbeer/breweries/breweries.csv")
+  val df = spark.read.csv("hdfs://namenode:9000/data/openbeer/breweries/breweries.csv")
   
   df.show()
 +----+--------------------+-------------+-----+---+
@@ -167,7 +165,7 @@ tcp        0      0 0.0.0.0:10000           0.0.0.0:*               LISTEN      
 Okay. Beeline is the command line interface with Hive. Let's connect to hiveserver2 now.
 
 ```
-  beeline
+  beeline -u jdbc:hive2://localhost:10000 -n root
   
   !connect jdbc:hive2://127.0.0.1:10000 scott tiger
 ```
